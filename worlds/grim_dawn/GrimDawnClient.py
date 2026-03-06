@@ -83,7 +83,9 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     
 # Forth  Run the command from the grim dawn folder: arzedit.exe extract "..\Grim Dawn\mods\archipelago\database\Archipelago.arz" "..\Grim Dawn\mods\patchedMod"
     #This initiates the command line, join adds a slash (os specific) between the arguments
+    print("patching game Client1")
     print(installPath)
+    installPath = "'"+installPath+"'"
     print("Deleting existing patchedMod files so a new one can build.", end='\r\n')
     patchedMod = "patchedArchipelago"
     subprocess.run([
@@ -439,6 +441,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
 
     print("Building database files.", end='\r\n')
     subprocess.run([
+        "wine",
         os.path.join(installPath,"arzedit.exe"),
         "build",
         os.path.join(installPath,"mods",patchedMod),
@@ -452,20 +455,19 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     print("Deleting temp files.", end='\r\n')
     subprocess.run([
         "rmdir",
-        "/s",
-        "/q",
         os.path.join(installPath,"mods",patchedMod,"records"),
         ], shell=True)
     
 # Eight  Copy arc files to new mod location: xcopy "..\Grim Dawn\mods\archipelago\resources" "..\Grim Dawn\mods\patchedArchipelago\resources" /i /y
 
+    # rsync -av --ignore-existing src/ dst/
     print("Copying arc files.", end='\r\n')
     subprocess.run([
-        "xcopy",
+        "rsync",
+        "-av",
+        "--ignore-existing",
         os.path.join(installPath,"mods","archipelago","resources"),
         os.path.join(installPath,"mods",patchedMod,"resources"),
-        "/i",
-        "/y",
         ], shell=True)
     
 # Ninth  Create a txt file containing connection info: echo message > "C:\SteamSuperSSD\steamapps\common\Grim Dawn\mods\patchedArchipelago\a.txt"
