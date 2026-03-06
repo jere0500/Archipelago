@@ -79,7 +79,14 @@ def patching_sanity_check(patchedValue, attributename):
         return max(patchedValue,1)
     return patchedValue
 
+def print_all_args(*args, **kwargs):
+    """Prints all positional and keyword arguments."""
+    print("Positional arguments (args):", args)
+    print("Keyword arguments (kwargs):", kwargs)
+
 def patch_game(username, server_address, password, installPath, slot_data: dict[str, any]):
+     """Your original function."""
+    print_all_args(username, server_address, password, installPath, slot_data=slot_data)
     
 # Forth  Run the command from the grim dawn folder: arzedit.exe extract "..\Grim Dawn\mods\archipelago\database\Archipelago.arz" "..\Grim Dawn\mods\patchedMod"
     #This initiates the command line, join adds a slash (os specific) between the arguments
