@@ -83,22 +83,23 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     
 # Forth  Run the command from the grim dawn folder: arzedit.exe extract "..\Grim Dawn\mods\archipelago\database\Archipelago.arz" "..\Grim Dawn\mods\patchedMod"
     #This initiates the command line, join adds a slash (os specific) between the arguments
+    print(installPath)
     print("Deleting existing patchedMod files so a new one can build.", end='\r\n')
     patchedMod = "patchedArchipelago"
     subprocess.run([
         "rmdir",
-        "/s",
-        "/q",
         os.path.join(installPath,"mods",patchedMod),
         ], shell=True)
     print("Extracting database files.", end='\r\n')
     subprocess.run([
+        "wine",
         os.path.join(installPath,"arzedit.exe"),
         "extract",
         os.path.join(installPath,"mods","archipelago","database","Archipelago.arz"),
         os.path.join(installPath,"mods",patchedMod),
         "-y",
         ], shell=True)
+
     
 # Fifth  Modify the dbr files based on the table of values stored in slot data that was filled at generate
 
