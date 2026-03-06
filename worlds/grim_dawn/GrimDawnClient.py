@@ -92,13 +92,14 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
     #This initiates the command line, join adds a slash (os specific) between the arguments
     print("patching game Client1")
     print(installPath)
-    installPath = "'"+installPath+"'"
+    # installPath = "'"+installPath+"'"
     print("Deleting existing patchedMod files so a new one can build.", end='\r\n')
     patchedMod = "patchedArchipelago"
     subprocess.run([
-        "rmdir",
+        "rm",
+        "-rf",
         os.path.join(installPath,"mods",patchedMod),
-        ], shell=True)
+        ])
     print("Extracting database files.", end='\r\n')
     subprocess.run([
         "wine",
@@ -107,7 +108,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         os.path.join(installPath,"mods","archipelago","database","Archipelago.arz"),
         os.path.join(installPath,"mods",patchedMod),
         "-y",
-        ], shell=True)
+        ])
 
     
 # Fifth  Modify the dbr files based on the table of values stored in slot data that was filled at generate
@@ -455,15 +456,16 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         os.path.join(installPath,"mods",patchedMod),
         "-g",
         installPath,
-        ], shell=True)
+        ])
     
 # Seven  Delete the extracted files, leaving behind only the compiled mod files: rmdir /s /q "..\Grim Dawn\mods\patchedMod\records"
 
     print("Deleting temp files.", end='\r\n')
     subprocess.run([
-        "rmdir",
+        "rm",
+        "-rf",
         os.path.join(installPath,"mods",patchedMod,"records"),
-        ], shell=True)
+        ])
     
 # Eight  Copy arc files to new mod location: xcopy "..\Grim Dawn\mods\archipelago\resources" "..\Grim Dawn\mods\patchedArchipelago\resources" /i /y
 
@@ -475,7 +477,7 @@ def patch_game(username, server_address, password, installPath, slot_data: dict[
         "--ignore-existing",
         os.path.join(installPath,"mods","archipelago","resources"),
         os.path.join(installPath,"mods",patchedMod,"resources"),
-        ], shell=True)
+        ])
     
 # Ninth  Create a txt file containing connection info: echo message > "C:\SteamSuperSSD\steamapps\common\Grim Dawn\mods\patchedArchipelago\a.txt"
 
