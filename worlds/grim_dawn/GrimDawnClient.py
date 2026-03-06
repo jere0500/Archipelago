@@ -85,7 +85,7 @@ def print_all_args(*args, **kwargs):
     print("Keyword arguments (kwargs):", kwargs)
 
 def patch_game(username, server_address, password, installPath, slot_data: dict[str, any]):
-     """Your original function."""
+    """Your original function."""
     print_all_args(username, server_address, password, installPath, slot_data=slot_data)
     
 # Forth  Run the command from the grim dawn folder: arzedit.exe extract "..\Grim Dawn\mods\archipelago\database\Archipelago.arz" "..\Grim Dawn\mods\patchedMod"
